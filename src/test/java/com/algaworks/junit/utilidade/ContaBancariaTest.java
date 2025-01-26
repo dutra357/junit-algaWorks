@@ -55,7 +55,7 @@ class ContaBancariaTest {
             Assertions.assertEquals(new BigDecimal(5), contaBancaria.saldo());
         }
     }
-    
+
     @Nested
     class Deposito {
         @Test
