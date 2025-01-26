@@ -1,15 +1,14 @@
 package com.algaworks.junit.utilidade;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Assumptions;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
+import org.junit.jupiter.api.function.Executable;
 
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class SaudacaoUtilTest {
 
     @Test
-    public void saudarTestManha() {
+    public void saudar_Test_para_Manha() {
         String saudacao = SaudacaoUtil.saudar(9);
         System.out.println(saudacao);
 
@@ -29,9 +28,19 @@ class SaudacaoUtilTest {
     }
 
     @Test
+    @DisplayName("Deve saudar com bom dia sem lançar exceção.")
     public void saudarTestShouldNotThrowException() {
+        //refatorado para padrão AAA
+        //Assertions.assertDoesNotThrow(() -> SaudacaoUtil.saudar(5));
 
-        Assertions.assertDoesNotThrow(() -> SaudacaoUtil.saudar(5));
+        //Arrange
+        int horaSaudacao = 5;
+
+        //Act
+        Executable executable = () -> SaudacaoUtil.saudar(horaSaudacao);
+
+        //Assert
+        Assertions.assertDoesNotThrow(executable);
     }
 
     @Test
