@@ -2,29 +2,23 @@ package com.algaworks.junit.ecommerce;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 public class CarrinhoCompra {
 
 	private final Cliente cliente;
-	private final List<ItemCarrinhoCompra> itens;
+	private final List<ItemCarrinhoCompra> itens = new ArrayList<>();
 
 	public CarrinhoCompra(Cliente cliente) {
-		this(cliente, new ArrayList<>());
-	}
-
-	public CarrinhoCompra(Cliente cliente, List<ItemCarrinhoCompra> itens) {
 		Objects.requireNonNull(cliente);
-		Objects.requireNonNull(itens);
 		this.cliente = cliente;
-		this.itens = new ArrayList<>(itens); //Cria lista caso passem uma imutável
 	}
 
 	public List<ItemCarrinhoCompra> getItens() {
 		//TODO deve retornar uma nova lista para que a antiga não seja alterada
-		return itens;
+		return new ArrayList<>();
 	}
 
 	public Cliente getCliente() {
@@ -51,6 +45,10 @@ public class CarrinhoCompra {
 				this.itens.add(new ItemCarrinhoCompra(produto, quantidade));
 			}
 		}
+
+		if (this.itens.isEmpty()) {
+			this.itens.add(new ItemCarrinhoCompra(produto, quantidade));
+		}
 	}
 
 	public void removerProduto(Produto produto) {
@@ -62,14 +60,20 @@ public class CarrinhoCompra {
 			throw new IllegalArgumentException("Produto não pode ser nulo.");
 		}
 
-		for (ItemCarrinhoCompra item : this.itens) {
+		if (this.itens.isEmpty()) {
+			throw new IllegalArgumentException("Produto não pode ser nulo.");
+		}
+
+		Iterator<ItemCarrinhoCompra> iterator = this.itens.iterator();
+
+		while (iterator.hasNext()) {
+			ItemCarrinhoCompra item = iterator.next();
 			if (item.getProduto().equals(produto)) {
-				this.itens.remove(item);
+				iterator.remove();
 			} else {
 				throw new IllegalArgumentException("Produto não encontrado.");
 			}
 		}
-
 	}
 
 	public void aumentarQuantidadeProduto(Produto produto) {
@@ -99,12 +103,20 @@ public class CarrinhoCompra {
 			throw new IllegalArgumentException("Produto não pode ser nulo.");
 		}
 
-		for (ItemCarrinhoCompra item : this.itens) {
-			if (item.getProduto().equals(produto)) {
-				item.subtrairQuantidade(1);
+		if (this.itens.isEmpty()) {
+			throw new IllegalArgumentException("Produto não encontrado.");
+		}
 
-				if (item.getQuantidade() == 0) {
-					this.itens.remove(item);
+		Iterator<ItemCarrinhoCompra> iterator = this.itens.iterator();
+		while (iterator.hasNext()) {
+			ItemCarrinhoCompra item = iterator.next();
+			if (item.getProduto().equals(produto)) {
+				if (item.getQuantidade() == 1) {
+					item.subtrairQuantidade(1);
+					iterator.remove();
+					System.out.println(item.getQuantidade());
+				} else {
+					item.subtrairQuantidade(1);
 				}
 			} else {
 				throw new IllegalArgumentException("Produto não encontrado.");
