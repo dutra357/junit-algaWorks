@@ -45,7 +45,8 @@ class CarrinhoCompraTest {
         }
 
         @Test
-        void adicionarProdutoNuloRetornaErro() {
+        @DisplayName("Adicionar produto nulo retorna ERRO")
+        void adicionar_Produto_Nulo_Retorna_Erro() {
             Assertions.assertThrows(IllegalArgumentException.class, () -> {
                 carrinhoCompra.adicionarProduto(null, 1);
             });
@@ -59,7 +60,7 @@ class CarrinhoCompraTest {
         }
 
         @Test
-        void adicionar_Produto_Valido() {
+        void adicionar_Produto_igual_Valido() {
             carrinhoCompra.adicionarProduto(produto, 4);
             List<ItemCarrinhoCompra> itensCarrinho = carrinhoCompra.getItens();
             Assertions.assertEquals(6, carrinhoCompra.getQuantidadeTotalDeProdutos());
@@ -144,16 +145,30 @@ class CarrinhoCompraTest {
             Assertions.assertEquals(0, carrinhoCompra.getQuantidadeTotalDeProdutos());
         }
     }
+    @Nested
+    @DisplayName("Testes sobre valores totais do pedido - quantidade/vaLor")
+    class Totais {
+        @BeforeEach
+        private void setUp() {
+            carrinhoCompra.adicionarProduto(produto, 2);
+        }
 
-    @Test
-    void getValorTotal() {
+        @Test
+        void getValorTotal() {
+            BigDecimal valorTotal = carrinhoCompra.getValorTotal();
+            Assertions.assertEquals(new BigDecimal("400.00"), valorTotal);
+        }
+
+        @Test
+        void getQuantidadeTotalDeProdutos() {
+            carrinhoCompra.adicionarProduto(produto2, 5);
+            Assertions.assertEquals(carrinhoCompra.getQuantidadeTotalDeProdutos(), 7);
+        }
     }
 
     @Test
-    void getQuantidadeTotalDeProdutos() {
-    }
-
-    @Test
-    void esvaziar() {
+    void esvaziarDeveRemoverTodosOsItensDePedido() {
+        carrinhoCompra.esvaziar();
+        Assertions.assertEquals(0, carrinhoCompra.getQuantidadeTotalDeProdutos());
     }
 }

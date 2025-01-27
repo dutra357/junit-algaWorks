@@ -1,10 +1,7 @@
 package com.algaworks.junit.ecommerce;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class CarrinhoCompra {
 
@@ -38,11 +35,19 @@ public class CarrinhoCompra {
 			throw new IllegalArgumentException("Quantidade não pode ser inferior a 1.");
 		}
 
-		for (ItemCarrinhoCompra item : this.itens) {
-			if (item.getProduto().equals(produto)) {
-				item.adicionarQuantidade(quantidade);
-			} else {
-				this.itens.add(new ItemCarrinhoCompra(produto, quantidade));
+		List<ItemCarrinhoCompra> pedidos = Collections.synchronizedList(this.itens);
+
+		synchronized (pedidos) {
+			Iterator<ItemCarrinhoCompra> iterator = pedidos.iterator();
+
+			while (iterator.hasNext()) {
+				ItemCarrinhoCompra item = iterator.next();
+				if (item.getProduto().equals(produto)) {
+					item.adicionarQuantidade(quantidade);
+				} else {
+					this.itens.add(new ItemCarrinhoCompra(produto, quantidade));
+					break;
+				}
 			}
 		}
 
