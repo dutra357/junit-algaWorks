@@ -37,22 +37,18 @@ public class CarrinhoCompra {
 
 		List<ItemCarrinhoCompra> pedidos = Collections.synchronizedList(this.itens);
 
+		boolean itemExiste = false;
 		synchronized (pedidos) {
-			Iterator<ItemCarrinhoCompra> iterator = pedidos.iterator();
-
-			while (iterator.hasNext()) {
-				ItemCarrinhoCompra item = iterator.next();
+			for (ItemCarrinhoCompra item : pedidos) {
 				if (item.getProduto().equals(produto)) {
 					item.adicionarQuantidade(quantidade);
-				} else {
-					this.itens.add(new ItemCarrinhoCompra(produto, quantidade));
+					itemExiste = true;
 					break;
 				}
 			}
-		}
-
-		if (this.itens.isEmpty()) {
-			this.itens.add(new ItemCarrinhoCompra(produto, quantidade));
+			if (!itemExiste) {
+				this.itens.add(new ItemCarrinhoCompra(produto, quantidade));
+			}
 		}
 	}
 

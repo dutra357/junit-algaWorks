@@ -62,8 +62,9 @@ class CarrinhoCompraTest {
         @Test
         void adicionar_Produto_igual_Valido() {
             carrinhoCompra.adicionarProduto(produto, 4);
+            carrinhoCompra.adicionarProduto(produto2, 4);
             List<ItemCarrinhoCompra> itensCarrinho = carrinhoCompra.getItens();
-            Assertions.assertEquals(6, carrinhoCompra.getQuantidadeTotalDeProdutos());
+            Assertions.assertEquals(10, carrinhoCompra.getQuantidadeTotalDeProdutos());
         }
 
         @Test
