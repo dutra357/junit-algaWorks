@@ -32,8 +32,13 @@ class CadastroEditorTestMOCK {
     void beforeEach() {
         editor = new Editor(null, "Alex", "alex@gmail.com", BigDecimal.TEN, true);
 
+        //Customização do método na classe mockada
         Mockito.when(armazenamentoEditor.salvar(any()))
-                .thenReturn(new Editor(1L, "Alex", "alex@gmail.com", BigDecimal.TEN, true));
+                .thenAnswer(invocationOnMock -> {
+                    Editor novoEditor = invocationOnMock.getArgument(0, Editor.class);
+                    novoEditor.setId(1L);
+                    return novoEditor;
+                });
 
     }
 
