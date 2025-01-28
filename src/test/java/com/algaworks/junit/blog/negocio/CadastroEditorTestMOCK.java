@@ -63,4 +63,16 @@ class CadastroEditorTestMOCK {
 
         Mockito.verify(armazenamentoEditor, Mockito.times(1)).salvar(Mockito.any(Editor.class));
     }
+
+    @Test
+    public void Dado_um_editor_valido_ao_salvar_e_lancar_exception_nao_deve_enviar_email() {
+
+        Mockito.when(armazenamentoEditor.salvar(editor)).thenThrow(RuntimeException.class);
+
+        Assertions.assertThrows(RuntimeException.class, () -> {
+            cadastroEditor.criar(editor);
+        });
+
+        Mockito.verify(envioEmail, Mockito.never()).enviarEmail(any());
+    }
 }
