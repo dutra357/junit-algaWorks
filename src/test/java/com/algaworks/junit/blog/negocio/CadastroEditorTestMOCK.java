@@ -32,8 +32,16 @@ class CadastroEditorTestMOCK {
     void beforeEach() {
         editor = new Editor(null, "Alex", "alex@gmail.com", BigDecimal.TEN, true);
 
-        //Customização do método na classe mockada
-        Mockito.when(armazenamentoEditor.salvar(any()))
+        //Customização do método na classe mockada - com customização estática (Editor fixo)
+//        Mockito.when(armazenamentoEditor.salvar(any()))
+//                .thenAnswer(invocationOnMock -> {
+//                    Editor novoEditor = invocationOnMock.getArgument(0, Editor.class);
+//                    novoEditor.setId(1L);
+//                    return novoEditor;
+//                });
+
+        //Customização do método na classe mockada - com passagem de parâmetro dinâmica (qualquer entidade Editor)
+        Mockito.when(armazenamentoEditor.salvar(any(Editor.class)))
                 .thenAnswer(invocationOnMock -> {
                     Editor novoEditor = invocationOnMock.getArgument(0, Editor.class);
                     novoEditor.setId(1L);
@@ -47,5 +55,12 @@ class CadastroEditorTestMOCK {
         Editor editorSalvo = cadastroEditor.criar(editor);
 
         Assertions.assertEquals(1L, editorSalvo.getId());
+    }
+
+    @Test
+    public void Dado_um_editor_valido_quando_criar_entao_deve_chamar_metodo_salvar_do_Armazenamento() {
+        Editor editorSalvo = cadastroEditor.criar(editor);
+
+        Mockito.verify(armazenamentoEditor, Mockito.times(1)).salvar(Mockito.any(Editor.class));
     }
 }
