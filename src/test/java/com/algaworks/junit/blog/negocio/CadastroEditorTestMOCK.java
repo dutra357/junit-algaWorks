@@ -6,12 +6,14 @@ import com.algaworks.junit.blog.modelo.Editor;
 import com.algaworks.junit.blog.negocio.stub.ArmazenamentoEditorFixoEmMemoria;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 
@@ -74,5 +76,19 @@ class CadastroEditorTestMOCK {
         });
 
         Mockito.verify(envioEmail, Mockito.never()).enviarEmail(any());
+    }
+
+    @Test
+    public void Dado_um_editor_valido_quando_cadastrar_entao_deve_enviar_email_com_destino_ao_editor() {
+
+        ArgumentCaptor<Mensagem> mensagemArgumentCaptor = ArgumentCaptor.forClass(Mensagem.class);
+
+        Editor editorCriado = cadastroEditor.criar(editor);
+
+        Mockito.verify(envioEmail).enviarEmail(mensagemArgumentCaptor.capture());
+
+        Mensagem mensagem = mensagemArgumentCaptor.getValue();
+
+        Assertions.assertEquals(editorCriado.getEmail(), mensagem.getDestinatario());
     }
 }
