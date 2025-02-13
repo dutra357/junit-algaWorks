@@ -8,7 +8,7 @@ import org.junit.jupiter.api.*;
 import java.math.BigDecimal;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-class CadastroEditorTestSTUB {
+class CadastroEditorTest {
 
     static CadastroEditor cadastroEditor;
     private Editor editor;
@@ -20,7 +20,7 @@ class CadastroEditorTestSTUB {
 
         cadastroEditor = new CadastroEditor(
                 armazenamentoEditor,
-                new GerenciadorEnvioEmail() {
+                new GerenciadorEnvioEmail() { //Objeto duble sem STUB externo - casos simples
                     @Override
                     public void enviarEmail(Mensagem mensagem) {
                         System.out.println("Enviando mensagem para: " + mensagem.getDestinatario());

@@ -92,6 +92,8 @@ class CadastroEditorTestMOCK {
         Assertions.assertEquals(editorCriado.getEmail(), mensagem.getDestinatario());
     }
 
+    //Espionando objeto real com mockito
+    //útil quando você deseja mockar parcialmente certos métodos de um objeto real, mantendo o comportamento real de outros
     @Test
     public void Dado_um_editor_valido_quando_cadastrar_entao_deve_verificar_o_email() {
 
