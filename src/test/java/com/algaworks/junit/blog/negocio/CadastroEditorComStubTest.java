@@ -8,10 +8,10 @@ import org.junit.jupiter.api.*;
 import java.math.BigDecimal;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-class CadastroEditorTest {
+class CadastroEditorComStubTest {
 
     static CadastroEditor cadastroEditor;
-    private Editor editor;
+    private Editor editor, editor2;
     private static ArmazenamentoEditorFixoEmMemoria armazenamentoEditor;
 
     @BeforeEach
@@ -28,11 +28,13 @@ class CadastroEditorTest {
                 });
 
         editor = new Editor(null, "Alex", "alex@gmail.com", BigDecimal.TEN, true);
+        editor2 = new Editor(null, "Alex", "alex2@gmail.com", BigDecimal.TEN, true);
     }
 
     @Test
     public void Dado_um_editor_valido_quando_criar_entao_deve_retornar_id_de_cadastro() {
-        Editor editorCriado = cadastroEditor.criar(editor);
+        Editor editorCriado = cadastroEditor.criar(editor2);
+
         Assertions.assertEquals(1L, editorCriado.getId());
         Assertions.assertTrue(armazenamentoEditor.here);
     }
