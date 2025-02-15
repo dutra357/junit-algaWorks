@@ -18,7 +18,7 @@ class CarrinhoCompraTest {
     List<ItemCarrinhoCompra> itens;
 
     @BeforeEach
-    private void beforeEach() {
+    public void beforeEach() {
         cliente = new Cliente(1L, "Antonio");
 
         produto = new Produto(1L, "Meu produto",
@@ -40,7 +40,7 @@ class CarrinhoCompraTest {
     @DisplayName("Testes para adicionar/remover produtos")
     class Produtos{
         @BeforeEach
-        private void setUp() {
+        public void setUp() {
             carrinhoCompra.adicionarProduto(produto, 2);
         }
 
@@ -150,7 +150,7 @@ class CarrinhoCompraTest {
     @DisplayName("Testes sobre valores totais do pedido - quantidade/vaLor")
     class Totais {
         @BeforeEach
-        private void setUp() {
+        public void setUp() {
             carrinhoCompra.adicionarProduto(produto, 2);
         }
 
