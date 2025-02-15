@@ -1,8 +1,9 @@
 package com.algaworks.junit.utilidade;
 
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.junit.jupiter.api.function.Executable;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class SaudacaoUtilTest {
@@ -96,6 +97,19 @@ class SaudacaoUtilTest {
         Assumptions.assumeTrue("DEV".equals(System.getenv("ENV")), () -> "Abortando teste.");
 
         Assertions.assertDoesNotThrow(() -> SaudacaoUtil.saudar(5));
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = {5, 6, 7, 8, 9, 10, 11 })
+    public void Dado_horario_matinal_entao_deve_retornar_bom_dia(int hora) {
+
+        //Teste parametrizado - dispensa @Test
+        //Dependencia especifica
+        String saudacao = SaudacaoUtil.saudar(hora);
+
+        Assertions.assertEquals("Bom dia", saudacao, "Saudação incorreta!");
+        Assertions.assertTrue(saudacao.equals("Bom dia"));
+
     }
 
 }

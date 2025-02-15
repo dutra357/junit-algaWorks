@@ -10,9 +10,9 @@ import java.math.BigDecimal;
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class CadastroEditorComStubTest {
 
-    static CadastroEditor cadastroEditor;
+    CadastroEditor cadastroEditor;
     private Editor editor, editor2;
-    private static ArmazenamentoEditorFixoEmMemoria armazenamentoEditor;
+    private ArmazenamentoEditorFixoEmMemoria armazenamentoEditor;
 
     @BeforeEach
     void beforeEach() {

@@ -9,7 +9,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -23,16 +22,16 @@ class CadastroEditorComMockTest {
     @Mock
     GerenciadorEnvioEmail envioEmail;
     @InjectMocks
-    static CadastroEditor cadastroEditor;
+    CadastroEditor cadastroEditor;
 
     private Editor editor;
 
     @Nested
     class CadastroComEditorValido {
         @Spy
-        Editor editor = EditorTestData.criaEditorNovo();
+        Editor editor = EditorTestData.criaEditorNovo().build();
         @BeforeEach
-        void beforeEach() {
+        void init() {
 
             //Customização do método na classe mockada - com passagem de parâmetro dinâmica (qualquer entidade Editor)
             Mockito.when(armazenamentoEditor.salvar(Mockito.any(Editor.class)))
@@ -90,7 +89,7 @@ class CadastroEditorComMockTest {
                     .thenReturn(Optional.empty())
                     .thenReturn(Optional.of(editor));
 
-            Editor editorExistente = EditorTestData.criaEditorNovo();
+            Editor editorExistente = EditorTestData.criaEditorNovo().build();
 
             cadastroEditor.criar(editor);
             Assertions.assertThrows(RegraNegocioException.class, () -> cadastroEditor.criar(editorExistente));
@@ -123,7 +122,7 @@ class CadastroEditorComMockTest {
     @Nested
     class EdicaoComEditorValido {
         @Spy
-        Editor editorSpy = EditorTestData.criaEditorExistente();
+        Editor editorSpy = EditorTestData.criaEditorExistente().build();
         @BeforeEach
         void beforeEach() {
 
@@ -134,9 +133,10 @@ class CadastroEditorComMockTest {
         @Test
         public void Dado_um_editor_valido_quando_editar_entao_deve_Alterar_editor_salvo() {
 
-            Editor atualizado = EditorTestData.criaEditorExistente();
-            atualizado.setEmail("atualizado@gmail.com");
-            atualizado.setNome("Atualizado da Silva");
+            Editor atualizado = EditorTestData.criaEditorExistente()
+                    .withEmail("atualizado@gmail.com")
+                    .withNome("Atualizado da Silva")
+                    .build();
 
             cadastroEditor.editar(atualizado);
 
@@ -153,7 +153,7 @@ class CadastroEditorComMockTest {
         @BeforeEach
         public void beforeEach() {
 
-            editor = EditorTestData.criaEditorInexistente();
+            editor = EditorTestData.criaEditorInexistente().build();
 
             Mockito.when(armazenamentoEditor.encontrarPorId(99L)).thenReturn(Optional.empty());
         }
