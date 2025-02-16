@@ -15,6 +15,11 @@ class SaudacaoUtilTest {
 
         Assertions.assertEquals("Bom dia", saudacao, "Saudação incorreta!");
         Assertions.assertTrue(saudacao.equals("Bom dia"));
+
+        //Módulo asserJ
+        org.assertj.core.api.Assertions.assertThat(saudacao)
+                .withFailMessage("Saudação incorreta!")
+                .isEqualTo("Bom dia");
     }
 
     @Test
@@ -26,6 +31,11 @@ class SaudacaoUtilTest {
         });
 
         Assertions.assertEquals("Hora inválida", illegalArgumentException.getMessage());
+
+        //AssertJ - catchThrowableOfType()
+        IllegalArgumentException e = org.assertj.core.api.Assertions.catchThrowableOfType( () -> SaudacaoUtil.saudar(-9), IllegalArgumentException.class);
+        org.assertj.core.api.Assertions.assertThat(e)
+                .hasMessage("Hora inválida");
     }
 
     @Test
