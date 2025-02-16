@@ -31,14 +31,27 @@ class CarrinhoCompraTest {
     }
 
     @Test
-    void getItens() {
+    @DisplayName("Entao deve conter apenas produtos adicionados")
+    public void entaoDeveConterApenasProdutosAdicionados() {
+        //ultima aula - asserções em listas
+        carrinhoCompra.adicionarProduto(produto, 1);
+        System.out.println(carrinhoCompra.getItens());
+
+        org.assertj.core.api.Assertions.assertThat(carrinhoCompra.getItens())
+                .flatMap(ItemCarrinhoCompra::getProduto)
+                .contains(produto)
+                .doesNotContain(produto2);
+    }
+
+    @Test
+    public void getItens() {
         carrinhoCompra.adicionarProduto(produto, 2);
-        Assertions.assertEquals(0, carrinhoCompra.getItens().size());
+        Assertions.assertEquals(1, carrinhoCompra.getItens().size());
     }
 
     @Nested
     @DisplayName("Testes para adicionar/remover produtos")
-    class Produtos{
+    class Produtos {
         @BeforeEach
         public void setUp() {
             carrinhoCompra.adicionarProduto(produto, 2);

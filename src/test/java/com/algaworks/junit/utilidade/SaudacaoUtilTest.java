@@ -1,5 +1,6 @@
 package com.algaworks.junit.utilidade;
 
+import org.assertj.core.api.Condition;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.function.Executable;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -15,6 +16,14 @@ class SaudacaoUtilTest {
 
         Assertions.assertEquals("Bom dia", saudacao, "Saudação incorreta!");
         Assertions.assertTrue(saudacao.equals("Bom dia"));
+
+
+        //Condition (asserj-core)
+        //Pode ser criado um construtor estático para gerar Conditions em classe utils
+        Condition<String> condition = new Condition<>((s) -> s.equals("Bom dia"), "Parametro: %s", "Bom dia");
+        org.assertj.core.api.Assertions.assertThat(saudacao)
+                .is(condition);
+
 
         //Módulo asserJ
         org.assertj.core.api.Assertions.assertThat(saudacao)
