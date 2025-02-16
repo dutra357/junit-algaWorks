@@ -18,6 +18,8 @@ class SaudacaoUtilTest {
 
         //Módulo asserJ
         org.assertj.core.api.Assertions.assertThat(saudacao)
+                //asserçõs com msg descritivas
+                .as("Valdiando se a saudacao correta é %s: ", "Bom dia")
                 .withFailMessage("Saudação incorreta!")
                 .isEqualTo("Bom dia");
     }
